@@ -7,25 +7,13 @@ Original file is located at
     https://colab.research.google.com/drive/1vxviaRTHL9eB6r1CEl2BX_oQuDPyxmrN
 """
 #--disable-window
-import os
-import sys
-from operator import itemgetter
-from datetime import datetime
 
-from DeepQ import DeepQ
+from FailedAIAttempts.DeepQ import DeepQ
 
 """np.random.uniform(0, 1) -- [0, 1)"""
 import gym
-import gym_fightingice
-import random
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import multiprocessing
-from multiprocessing import Process, freeze_support
-import threading
 
-import uuid
+
 class interAI(object):
     def __init__(self, mode):
         self.env = gym.make("FightingiceDataFrameskip-v0",

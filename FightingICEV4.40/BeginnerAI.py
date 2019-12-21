@@ -54,6 +54,7 @@ class BeginnerAI:
     def __init__(self):
         # NN variable
         self.env = None
+        self.obs = None
         self.INPUT = 143
         self.IL = 6  # inner Layer
         self.OL = 4  # outer layer
@@ -129,13 +130,15 @@ class BeginnerAI:
         HighScore = []
         first = True
 
+        self.env = gym.make("FightingiceDataFrameskip-v0",
+                            java_env_path="C:/Users/mdcpa/PycharmProjects/AdvGameAI_FightingAI/FightingICEV4.40",
+                            freq_restart_java= self.pop * self.generations) #Within gym.make, the program multiplies it by 3, this is the total amount of rounds the program is rendering
+        self.obs = self.env.reset()
         for i in range(self.generations):
             NGeneration = []
             print("Generation ", i)
             countI = 0
             for CNN in NN:
-                self.env = gym.make("FightingiceDataFrameskip-v0",
-                                    java_env_path="C:/Users/mdcpa/FightingAI/FightingICEV4.40")
                 NGeneration.append(self.runOnce(CNN, countI))
                 countI += 1
             NN = self.Fitness(
@@ -168,9 +171,8 @@ class BeginnerAI:
         sumR = 0 #Sum of Rewards
         sumG = 0 #Sum of Wins and losses; Win = 1, Loss = -1, Tie = 0
         first = True
-        obs = self.env.beginMatch()  # Collects Round 1
         while 1:
-            NN.feedforward(obs)
+            NN.feedforward(self.obs)
             choice = list(NN.output)
             action = self.findHighestList(choice)
             obs, reward, done, info = self.env.step(action)
@@ -178,12 +180,11 @@ class BeginnerAI:
 
                 sumG += reward
                 print(reward)
+                obs = self.env.reset()
                 if rounds != 2:
                     rounds += 1
                     sumR += reward
-                    obs = self.env.reset()  # Reset rounds
                 else:
-                    self.env.endGame()
                     return sumR, NN, sumG  # GREEDY, JUST GET TOTAL SUM OF THE 3 ROUNDS
             else:
                 sumR = sumR + reward

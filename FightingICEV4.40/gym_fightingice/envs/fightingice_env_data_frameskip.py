@@ -229,6 +229,46 @@ class FightingiceEnv_Data_Frameskip(gym.Env):
             new_obs, reward, done, info = self.pipe.recv()
             return new_obs, reward, done, {}
 
+    # def reset(self, p2=Machete):
+    #     # start java game if game is not started
+    #     if self.game_started is False:
+    #         try:
+    #             self._close_gateway()
+    #             self._close_java_game()
+    #         except:
+    #             pass
+    #         self._start_java_game()
+    #         self._start_gateway(p2)
+    #
+    #     # to provide crash, restart java game in some freq
+    #     if self.round_num == self.freq_restart_java * 3:  # 3 is for round in one game
+    #         try:
+    #             self._close_gateway()
+    #             self._close_java_game()
+    #             self._start_java_game()
+    #         except:
+    #             raise SystemExit("Can not restart game")
+    #         self._start_gateway(p2)
+    #
+    #     # just reset is anything ok
+    #     self.pipe.send("reset")
+    #     self.round_num += 1
+    #     obs = self.pipe.recv()
+    #     return obs
+    #
+    # def step(self, action):
+    #     # check if game is running, if not try restart
+    #     # when restart, dict will contain crash info, agent should do something, it is a BUG in this version
+    #     if self.game_started is False:
+    #         dict = {}
+    #         dict["pre_game_crashed"] = True
+    #         return self.reset(), 0, None, dict
+    #
+    #     self.pipe.send(["step", action])
+    #     new_obs, reward, done, info = self.pipe.recv()
+    #     return new_obs, reward, done, {}
+
+
     def render(self, mode='human'):
         # no need
         pass
